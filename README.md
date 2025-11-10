@@ -36,7 +36,7 @@ This project contains automated tests for the Factorial Calculator application a
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/talenttinaapi/bitcubeqa>
 cd bitcubeqa
 ```
 
