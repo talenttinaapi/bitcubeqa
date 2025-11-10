@@ -1,4 +1,4 @@
-# bitcubeqa
+# BitcubeQa
 
 ## Project Overview
 
