@@ -39,7 +39,7 @@ async function verifyPageContent(
   await expect(lines.length).toBeGreaterThan(minLines);
 }
 
-// Here you navigate o the application before each test
+// Here you navigate to the application before each test
 test.beforeEach(async ({ page }) => {
   await page.goto(APP_URL);
 });
@@ -109,6 +109,14 @@ test("Enter key submits the form ", async ({ page }) => {
   await page.press("#number", "Enter");
   const result = page.locator("#resultDiv");
   await expect(result).toContainText("The factorial of 97 is");
+});
+
+test("Handling non-numeric input", async ({ page }) => {
+  await page.getByRole("textbox", { name: "Enter an integer" }).fill("abc");
+  await page.getByRole("button", { name: "Calculate!" }).click();
+  
+  const result = page.locator("#resultDiv");
+  await expect(result).toBeVisible();
 });
 
 test("Navigation to About page", async ({

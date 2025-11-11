@@ -19,6 +19,7 @@ This project contains automated tests for the Factorial Calculator application a
 - **Calculate factorial of 258** - Tests factorial with large positive integers
 - **Calculate factorial of big int 344444444446** - Tests with very large integers
 - **Calculate factorial of negative int -17** - Tests negative integer handling and HTTP response validation
+- **Calculate factorial of non-numeric input** - Tests handling non numeric input
 
 ### Accessibility Tests
 
