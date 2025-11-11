@@ -22,7 +22,7 @@ This project contains automated tests for the Factorial Calculator application a
 
 ### Accessibility Tests
 
-- **Enter key submits the form** - Verifies keyboard accessibility: pressing Enter in the input field triggers form submission and calculation (97! result)
+- **Enter key submits the form** - Verifies keyboard accessibility
 
 ### Navigation Tests
 
