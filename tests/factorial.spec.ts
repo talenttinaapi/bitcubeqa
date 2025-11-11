@@ -55,30 +55,40 @@ test.beforeEach(async ({ page }) => {
 
 
 test("Calculate factorial of 6", async ({ page }) => {
-  await calculateFactorial(page, "6");
-  await verifyFactorialResult(page, "The factorial of 6 is: 720");
+  await page.getByRole("textbox", { name: "Enter an integer" }).fill("6");
+  await page.getByRole("button", { name: "Calculate!" }).click();
+  
+  const result = page.locator("#resultDiv");
+  await expect(result).toContainText("The factorial of 6 is: 720");
 });
 
-test("Calculate factorial of 56", async ({ page }) => {
-  await calculateFactorial(page, "56");
-  await verifyFactorialResult(page, "The factorial of 56 is:");
+test("Calculate factorial of 56", async ({page,}) => {
+  await page.getByRole("textbox", { name: "Enter an integer" }).fill("56");
+  await page.getByRole("button", { name: "Calculate!" }).click();
+
+  const result = page.locator("#resultDiv");
+  await expect(result).toContainText(
+    "The factorial of 56 is: 7.109985878048635e+74");
 });
 
 test("Calculate factorial of 0", async ({ page }) => {
-  await calculateFactorial(page, "0");
-  await verifyFactorialResult(page, "The factorial of 0 is: 1");
+  await page.getByRole("textbox", { name: "Enter an integer" }).fill("0");
+  await page.getByRole("button", { name: "Calculate!" }).click();
+
+  const result = page.locator("#resultDiv");
+  await expect(result).toContainText("The factorial of 0 is: 1");
 });
 
-test("Calculate factorial of 258", async ({ page }) => {
-  await calculateFactorial(page, "258");
-  await verifyFactorialResult(page, "The factorial of 258 is:");
+test("Should calculate factorial of 258", async ({ page }) => {
+  await page.getByRole("textbox", { name: "Enter an integer" }).fill("258");
+  await page.getByRole("button", { name: "Calculate!" }).click();
+
+  const result = page.locator("#resultDiv");
+  await expect(result).toContainText("The factorial of 258 is:");
 });
 
-test("Calculate factorial of negative int -17", async ({
-  page,
-}: {
-  page: Page;
-}) => {
+test("Calculate factorial of negative int -17", async ({ page,}: {
+  page: Page;}) => {
   const [response] = await Promise.all([
     page.waitForResponse(
       (r) => r.url().includes("/factorial") && r.request().method() === "POST"
@@ -92,7 +102,6 @@ test("Calculate factorial of negative int -17", async ({
   expect(body.answer).not.toBeUndefined();
 });
 
-
 test("Calculate factorial for big int 34444444446", async ({ page }) => {
   await page.getByRole("textbox", { name: "Enter an integer" }).fill("344444444446");
   await page.getByRole("button", { name: "Calculate!" }).click();
@@ -105,16 +114,12 @@ test("Calculate factorial for big int 34444444446", async ({ page }) => {
 });
 
 test("Handling decimal number", async ({ page }) => {
-    await page.getByRole("textbox", { name: "Enter an integer" }).fill("5.5");
-    await page.getByRole("button", { name: "Calculate!" }).click();
-    
-   const result = page.locator("#resultDiv");
-    await expect(result).toBeVisible();
-  });
+  await page.getByRole("textbox", { name: "Enter an integer" }).fill("5.5");
+  await page.getByRole("button", { name: "Calculate!" }).click();
+  const result = page.locator("#resultDiv");
 
-test("Handling non-numeric input xyz", async ({ page }) => {
-  await calculateFactorial(page, "xyz");
-  await expect(page.locator("#resultDiv")).not.toBeEmpty();
+  await expect(result).toBeVisible();
+  await expect(result).toContainText("invalid", { ignoreCase: true });
 });
 
 test("Handling empty input", async ({ page }) => {
@@ -122,6 +127,11 @@ test("Handling empty input", async ({ page }) => {
   
   const result = page.locator("#resultDiv");
   await expect(result).toBeVisible();
+});
+
+test("Handling non-numeric input xyz", async ({ page }) => {
+  await calculateFactorial(page, "xyz");
+  await expect(page.locator("#resultDiv")).not.toBeEmpty();
 });
 
 test("Navigation to About page", async ({ page }) => {
