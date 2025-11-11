@@ -60,6 +60,14 @@ test("Calculate factorial of negative int -17", async ({
   expect(body.answer).not.toBeUndefined();
 });
 
+test("Enter key submits the form ", async ({ page }) => {
+  await page.goto("https://qainterview.pythonanywhere.com/");
+  await page.fill("#number", "97");
+  await page.focus("#number");
+  await page.press("#number", "Enter");
+  const result = page.locator("#resultDiv");
+  await expect(result).toContainText("The factorial of 97 is");
+});
 
 test("Navigation to About page", async ({
   page,
