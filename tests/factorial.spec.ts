@@ -60,13 +60,21 @@ test("Calculate factorial of negative int -17", async ({
   expect(body.answer).not.toBeUndefined();
 });
 
+test("Enter key submits the form ", async ({ page }) => {
+  await page.goto("https://qainterview.pythonanywhere.com/");
+  await page.fill("#number", "97");
+  await page.focus("#number");
+  await page.press("#number", "Enter");
+  const result = page.locator("#resultDiv");
+  await expect(result).toContainText("The factorial of 97 is");
+});
+
 test("Navigation to About page", async ({
   page,
 }) => {
   await page.goto("https://qainterview.pythonanywhere.com/");
   await page.getByRole("link", { name: "About" }).click();
   await page.waitForLoadState("domcontentloaded");
-
   const aboutText = await page.locator("body").innerText();
   const aboutLines = aboutText
     .split(/\r?\n/)
@@ -81,7 +89,6 @@ test("Navigation to Terms and Conditions ", async ({
   await page.goto("https://qainterview.pythonanywhere.com/");
   await page.getByRole("link", { name: "Terms and Conditions" }).click();
   await page.waitForLoadState("domcontentloaded");
-
   const termsText = await page.locator("body").innerText();
   const termsLines = termsText
     .split(/\r?\n/)
@@ -96,7 +103,6 @@ test("Navigation to Privacy page ", async ({
   await page.goto("https://qainterview.pythonanywhere.com/");
   await page.getByRole("link", { name: "Privacy" }).click();
   await page.waitForLoadState("domcontentloaded");
-
   const privacyText = await page.locator("body").innerText();
   const privacyLines = privacyText
     .split(/\r?\n/)

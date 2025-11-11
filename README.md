@@ -20,6 +20,10 @@ This project contains automated tests for the Factorial Calculator application a
 - **Calculate factorial of big int 344444444446** - Tests with very large integers
 - **Calculate factorial of negative int -17** - Tests negative integer handling and HTTP response validation
 
+### Accessibility Tests
+
+- **Enter key submits the form** - Verifies keyboard accessibility: pressing Enter in the input field triggers form submission and calculation (97! result)
+
 ### Navigation Tests
 
 - **Navigation to About page** - Verifies About page is filled with content (more than 1 line)
@@ -112,11 +116,11 @@ Tests are configured in `playwright.config.ts`. Key configurations:
 bitcubeqa/
 ├── tests/
 │   ├── factorial.spec.ts
-│   └── example.spec.ts       
-├── playwright.config.ts       
-├── package.json             
-├── README.md                
-└── LICENSE                   
+│   └── example.spec.ts
+├── playwright.config.ts
+├── package.json
+├── README.md
+└── LICENSE
 ```
 
 ## Notes
