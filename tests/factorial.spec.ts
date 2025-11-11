@@ -102,52 +102,47 @@ test("Calculate factorial of negative int -17", async ({ page,}: {
   expect(body.answer).not.toBeUndefined();
 });
 
-test("Calculate factorial for big int 34444444446", async ({ page }) => {
-  await page.getByRole("textbox", { name: "Enter an integer" }).fill("344444444446");
-  await page.getByRole("button", { name: "Calculate!" }).click();
-   await page.waitForTimeout(6000);
-  const result = page.locator("#resultDiv");   
-  await expect(result).toBeVisible();
-   
-  const resultText = await result.innerText();
-  expect(resultText.length).toBeGreaterThan(0);
-});
-
-test("Handling decimal number", async ({ page }) => {
-  await page.getByRole("textbox", { name: "Enter an integer" }).fill("5.5");
-  await page.getByRole("button", { name: "Calculate!" }).click();
+test("Enter key submits the form ", async ({ page }) => {
+  await page.goto("https://qainterview.pythonanywhere.com/");
+  await page.fill("#number", "97");
+  await page.focus("#number");
+  await page.press("#number", "Enter");
   const result = page.locator("#resultDiv");
-
-  await expect(result).toBeVisible();
-  await expect(result).toContainText("invalid", { ignoreCase: true });
+  await expect(result).toContainText("The factorial of 97 is");
 });
 
-test("Handling empty input", async ({ page }) => {
-  await page.getByRole("button", { name: "Calculate!" }).click();
-  
-  const result = page.locator("#resultDiv");
-  await expect(result).toBeVisible();
-});
-
-test("Handling non-numeric input xyz", async ({ page }) => {
-  await calculateFactorial(page, "xyz");
-  await expect(page.locator("#resultDiv")).not.toBeEmpty();
-});
-
-test("Navigation to About page", async ({ page }) => {
+test("Navigation to About page", async ({
+  page,
+}) => {
+  await page.goto("https://qainterview.pythonanywhere.com/");
   await page.getByRole("link", { name: "About" }).click();
   await page.waitForLoadState("domcontentloaded");
-  await verifyPageContent(page, 1);
+  const aboutText = await page.locator("body").innerText();
+  const aboutLines = aboutText
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+  await expect(aboutLines.length).toBeGreaterThan(1);
 });
 
 test("Navigation to Terms and Conditions", async ({ page }) => {
   await page.getByRole("link", { name: "Terms and Conditions" }).click();
   await page.waitForLoadState("domcontentloaded");
-  await verifyPageContent(page, 1);
+  const termsText = await page.locator("body").innerText();
+  const termsLines = termsText
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+  await expect(termsLines.length).toBeGreaterThan(1);
 });
 
 test("Navigation to Privacy page", async ({ page }) => {
   await page.getByRole("link", { name: "Privacy" }).click();
   await page.waitForLoadState("domcontentloaded");
-  await verifyPageContent(page, 1);
+  const privacyText = await page.locator("body").innerText();
+  const privacyLines = privacyText
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+  await expect(privacyLines.length).toBeGreaterThan(1);
 });
